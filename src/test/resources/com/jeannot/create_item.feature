@@ -9,7 +9,7 @@ Feature: Create items
 #    And I navigate to "Create Item"
 
 @wip
-Scenario: Search Google for something...
+Scenario: Search Stackoverflow for something...
     When I search Google for "Cucumber"
     Then I see "Cucumber" in the search results
 
