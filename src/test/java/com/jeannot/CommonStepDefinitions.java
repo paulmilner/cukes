@@ -4,9 +4,10 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.*;
-import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -35,13 +36,15 @@ public class CommonStepDefinitions {
         in.close();
         testAppURL = props.getProperty("test.url");
 
+        //Currently using a Chrome driver so ignore the IE stuff below...
         //NB this will use the embedded .dll version of the IE Driver, even though we get a warning message the whole time:
         //"The path to the driver executable must be set by the webdriver.ie.driver system property..."
         //We are currently using Selenium 2.24.1, but at some point after that version they stopped embedding
         //the DLL. This means that the IEDriverServer.exe needs to be downloaded, which of course may be difficult
         //to do in the secure Test App environment. So we have to stick to one of the earlier versions for now...
         if (driver==null) {
-            driver = new InternetExplorerDriver();
+        	System.setProperty("webdriver.chrome.driver", "chromedriver");
+            driver = new ChromeDriver();
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //set global polling wait for elements to appear
 
               //Shutdown hook not needed, we close and recreate the browser on each scenario
@@ -128,6 +131,22 @@ public class CommonStepDefinitions {
         String title = driver.getTitle();
         assertTrue("The expected result was: " + expectedPageTitle + ", but the title actually was: " + title, title.equals(expectedPageTitle));
         assertTrue("The following text was expected: " + expectedDashboardText, driver.getPageSource().contains(expectedDashboardText));
+    }
+
+    @When("^I search Google for \"([^\"]*)\"$")
+    public void I_search_Google_for(String searchTerm) throws Throwable {
+        driver.get(testAppURL);
+        By byTagInput = By.name("q");
+        WebElement searchBox = driver.findElement(byTagInput);
+        searchBox.clear();
+        searchBox.sendKeys(searchTerm);
+        searchBox.click();
+    }
+
+    @Then("^I see \"([^\"]*)\" in the search results$")
+    public void I_see_in_the_search_results(String result) throws Throwable {
+        //WebElement resultsElement = driver.findElement(By.id(""));
+        assertTrue("should have", driver.getPageSource().contains(result));
     }
 
     public WebDriver getDriver() {

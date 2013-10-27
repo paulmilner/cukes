@@ -7,7 +7,6 @@ Feature: Manage users
 Background:
 Given I log into Test App as "administrator"
 
-@wip
 Scenario: View the list of users
 When I navigate to Users
 Then I see the User list

@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 //@Cucumber.Options(format={"pretty","html:item/cucumber","junit:item/junit.xml","json-pretty:item/cucumber-report.json"},monochrome = true,tags = "@availability")
 
 //Run the test which is "work in progress"...
-//@Cucumber.Options(format={"progress","html:item/cucumber","junit:item/junit.xml","json-pretty:item/cucumber-report.json"},monochrome = true,tags = "@wip")
+@Cucumber.Options(format={"progress","html:target/cucumber","junit:target/junit.xml","json-pretty:target/cucumber-report.json"},monochrome = true,tags = "@wip")
 
 public class RunTests {
 }

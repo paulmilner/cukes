@@ -4,9 +4,14 @@ Feature: Create items
     I would like to create items
     So that the item is available for use in Test App
 
-Background:
-    Given I log into Test App as "administrator"
-    And I navigate to "Create Item"
+#Background:
+#    Given I log into Test App as "administrator"
+#    And I navigate to "Create Item"
+
+@wip
+Scenario: Search Google for something...
+    When I search Google for "Cucumber"
+    Then I see "Cucumber" in the search results
 
 Scenario: Initiate item creation
     When I enter a Item Name, Country Code and Item Type of "Organisation" and click "OK"
